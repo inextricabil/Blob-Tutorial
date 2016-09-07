@@ -31,8 +31,6 @@ namespace BlobTutorial
             // Make the files within the container available to everyone
             container.SetPermissions(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
 
-            CloudBlockBlob blockBlob = container.GetBlockBlobReference("myblob");
-
             // Get the path for all the photos from directory
             string[] photoEntries = Directory.GetFiles(@"C:\Users\Serban\Documents\visual studio 2015\Projects\BlobTutorial\BlobTutorial\Photos");
 
