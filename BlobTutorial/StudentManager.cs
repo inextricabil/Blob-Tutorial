@@ -38,6 +38,8 @@ namespace StudentManager
             table = tableClient.GetTableReference("students");
 
             table.CreateIfNotExists();
+
+
         }
 
     }
