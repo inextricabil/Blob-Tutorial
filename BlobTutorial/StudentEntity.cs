@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlobTutorial
+namespace StudentManager
 {
     public class StudentEntity : TableEntity
     {
@@ -19,6 +19,8 @@ namespace BlobTutorial
         }
 
         public StudentEntity() { }
+
+        public string StudentID { get; set; }
 
         public string Email { get; set; }
 

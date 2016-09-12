@@ -10,7 +10,7 @@ using Microsoft.WindowsAzure.Storage.Blob; // Namespace for Blob storage types
 using Microsoft.WindowsAzure.Storage.Table; // Namespace for Table storage types
 using System.IO;
 
-namespace BlobTutorial
+namespace StudentManager
 {
     class Program
     {
@@ -22,6 +22,7 @@ namespace BlobTutorial
 
             // Create the blob client.
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+
             // Create the table client.
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
 
@@ -32,11 +33,10 @@ namespace BlobTutorial
             container.CreateIfNotExists();
 
             // Retrive a reference to the table.
-            CloudTable table = tableClient.GetTableReference("students-table");
+            CloudTable table = tableClient.GetTableReference("students");
 
             // Create the table if it doesn't exist.
             table.CreateIfNotExists();
-
 
             // Create a new student entities.
             StudentEntity student1 = new StudentEntity("Serban", "Boghiu", "serban_boghiu@yahoo.com", "0748882907", 20);
@@ -50,17 +50,17 @@ namespace BlobTutorial
             StudentEntity student9 = new StudentEntity("Mircea", "Hortensiu", "mircea_hortensiu@yahoo.com", "0748882910", 20);
             StudentEntity student10 = new StudentEntity("Ilie", "Nastase", "ilie_nastase@yahoo.com", "0748882911", 20);
 
-            AddStudentInTable(student1, table);
-            AddStudentInTable(student2, table);
-            AddStudentInTable(student3, table);
-            AddStudentInTable(student4, table);
-            AddStudentInTable(student5, table);
-            AddStudentInTable(student6, table);
-            AddStudentInTable(student7, table);
-            AddStudentInTable(student8, table);
-            AddStudentInTable(student9, table);
-            AddStudentInTable(student10, table);
-
+            // Add each student to the table.
+            AddStudent(student1, table);
+            AddStudent(student2, table);
+            AddStudent(student3, table);
+            AddStudent(student4, table);
+            AddStudent(student5, table);
+            AddStudent(student6, table);
+            AddStudent(student7, table);
+            AddStudent(student8, table);
+            AddStudent(student9, table);
+            AddStudent(student10, table);
 
             // Make the files within the container available to everyone
             container.SetPermissions(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
@@ -93,7 +93,7 @@ namespace BlobTutorial
             }
         }
 
-        public static void AddStudentInTable(StudentEntity student, CloudTable table)
+        public static void AddStudent(StudentEntity student, CloudTable table)
         {
             // Create the TableOperation object that inserts the customer entity.
             TableOperation insertOperation = TableOperation.Insert(student);
@@ -101,6 +101,20 @@ namespace BlobTutorial
             // Execute the insert operation.
             table.Execute(insertOperation);
         }
+
+        public static void DeleteStudent(string firstName, string lastName)
+        {
+            TableOperation retrieveOperation = TableOperation.Retrieve<StudentEntity>(firstName, lastName);
+
+            TableResult retrievedResult = table.Execute(retrieveOperation);
+        }
+
+        public static void ReadStudents()
+        {
+
+        }
+
+
         async public static Task ListBlobsSegmentedInFlatListing(CloudBlobContainer container)
         {
             //List blobs to the console window, with paging.
